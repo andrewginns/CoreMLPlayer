@@ -13,7 +13,7 @@ final class VisionPipelineTests: XCTestCase {
         let duration: Duration = .milliseconds(40)
 
         let sut = Base()
-        let output = sut.asDetectedObjects(visionObservationResults: observation.map { [$0] }, detectionTime: duration)
+        let output = sut.asDetectedObjects(visionObservationResults: [observation], detectionTime: duration)
 
         XCTAssertEqual(output.objects.first?.label, "object")
         XCTAssertEqual(output.objects.first?.width, boundingBox.width)
