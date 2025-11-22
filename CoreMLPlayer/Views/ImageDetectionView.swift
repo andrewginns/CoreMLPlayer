@@ -171,7 +171,17 @@ struct ImageDetectionView: View {
     }
     
     func setObjectLocations() {
-        detectedObjects = images.detectImageObjects(imageFile: currentImage, model: coreMLModel.model)
+        guard let currentImage else {
+            detectedObjects = []
+            return
+        }
+        let model = coreMLModel.model
+        DispatchQueue.global(qos: .userInitiated).async {
+            let objects = images.detectImageObjects(imageFile: currentImage, model: model)
+            DispatchQueue.main.async {
+                self.detectedObjects = objects
+            }
+        }
     }
     
     var zoomGesture: some Gesture {

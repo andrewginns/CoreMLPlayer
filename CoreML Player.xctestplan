@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "1C188226-3069-4FCA-A833-A5EA0729A1DA",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CoreMLPlayer.xcodeproj",
+      "identifier" : "0D680A24297B38E7004F3839",
+      "name" : "CoreML Player"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:CoreMLPlayer.xcodeproj",
+        "identifier" : "B3559561388448499FAD2F36",
+        "name" : "CoreMLPlayerTests"
+      }
+    }
+  ],
+  "version" : 1
+}

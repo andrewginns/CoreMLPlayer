@@ -72,7 +72,7 @@ struct CoreMLModelView: View {
             }
             .pickerStyle(.segmented)
             .padding(.vertical)
-            .onChange(of: coreMLModel.autoloadSelection) { _ in
+            .onChange(of: coreMLModel.autoloadSelection) { _, _ in
                 coreMLModel.bookmarkModel()
             }
             
@@ -86,8 +86,9 @@ struct CoreMLModelView: View {
             }
             .pickerStyle(.segmented)
             .padding(.vertical)
-            .onChange(of: coreMLModel.computeUnits) { _ in
-                switch coreMLModel.computeUnits {
+            .onChange(of: coreMLModel.computeUnits) { _, newValue in
+                // Drop GPU low-precision flag when GPU is not part of the selection.
+                switch newValue {
                 case .cpuAndGPU, .all:
                     break
                 default:
@@ -108,13 +109,51 @@ struct CoreMLModelView: View {
                 .pickerStyle(.segmented)
                 .padding(.top)
                 .padding(.bottom, 30)
-                .onChange(of: coreMLModel.gpuAllowLowPrecision) { _ in
+                .onChange(of: coreMLModel.gpuAllowLowPrecision) { _, _ in
                     coreMLModel.reconfigure()
                 }
             default:
                 EmptyView()
             }
-            
+
+            if let warning = coreMLModel.optimizationWarning {
+                HStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundColor(.orange)
+                    Text(warning)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 8)
+            }
+
+            Divider()
+
+            if coreMLModel.availableFunctions.count > 1 {
+                Picker("Function", selection: Binding<String?>(
+                    get: { coreMLModel.selectedFunction },
+                    set: { coreMLModel.selectedFunction = $0 }
+                )) {
+                    ForEach(coreMLModel.availableFunctions, id: \.self) { fn in
+                        Text(fn).tag(Optional(fn))
+                    }
+                }
+                .pickerStyle(.menu)
+                .padding(.vertical)
+            } else if let only = coreMLModel.availableFunctions.first {
+                HStack {
+                    Text("Function:").bold()
+                    Text(only)
+                }
+                .padding(.vertical, 4)
+            }
+
+            HStack {
+                Text("Model Kind:").bold()
+                Text(coreMLModel.modelKind.rawValue.capitalized)
+            }
+
             HStack {
                 Button(action: coreMLModel.selectCoreMLModel) {
                     Label("Change CoreML Model", systemImage: "m.square.fill")

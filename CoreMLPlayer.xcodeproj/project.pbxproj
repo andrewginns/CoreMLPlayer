@@ -49,7 +49,33 @@
 		0DFC8B93297C886700D1B3C9 /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B92297C886700D1B3C9 /* Videos.swift */; };
 		0DFC8B95297C88F800D1B3C9 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B94297C88F800D1B3C9 /* Base.swift */; };
 		0DFC8B97297C96FA00D1B3C9 /* CoreMLModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B96297C96FA00D1B3C9 /* CoreMLModelView.swift */; };
+		125F5E572F5849C3B8BE9F2D /* CoreML Player.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D680A25297B38E7004F3839 /* CoreML Player.app */; };
+		136576A07E5B4251BA91A59D /* VisionPipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */; };
+		5287F1F98D6844138659C85F /* YOLOv3Tiny.mlmodel in Resources */ = {isa = PBXBuildFile; fileRef = 0D73DBF3298B3757005D214B /* YOLOv3Tiny.mlmodel */; };
+		78B86E38D81A415F8AA229B5 /* ModelLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */; };
+		80166255DF6740559D13CBF5 /* VideoDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */; };
+		F1D100A1299C000100000002 /* BaseDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A0299C000100000001 /* BaseDetectionTests.swift */; };
+		F1D100A3299C000100000004 /* CoreMLModelFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A2299C000100000003 /* CoreMLModelFormatTests.swift */; };
+		F1D100A5299C000100000006 /* CoreMLModelOptimizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A4299C000100000005 /* CoreMLModelOptimizationTests.swift */; };
+		F1D100A7299C000100000008 /* FixtureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A6299C000100000007 /* FixtureBuilder.swift */; };
+		F1D100A9299C00010000000A /* MultiFunctionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A8299C000100000009 /* MultiFunctionModelTests.swift */; };
+		F1D100AB299C00010000000C /* OverlaySnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100AA299C00010000000B /* OverlaySnapshotTests.swift */; };
+		F1D100AD299C00010000000E /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100AC299C00010000000D /* ProjectConfigurationTests.swift */; };
+		F1D100AF299C000100000010 /* VideoDetectionMetricsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100AE299C00010000000F /* VideoDetectionMetricsTests.swift */; };
+		F1D100B1299C000100000012 /* VideoDetectionPixelFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100B0299C000100000011 /* VideoDetectionPixelFormatTests.swift */; };
+		F1D100B3299C000100000014 /* VideoDetectionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100B2299C000100000013 /* VideoDetectionStateTests.swift */; };
+		F1D100B5299C000100000016 /* VideoDetectionTestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100B4299C000100000015 /* VideoDetectionTestDoubles.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		80166255DF6740559D13CBF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D680A1D297B38E7004F3839 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D680A24297B38E7004F3839;
+			remoteInfo = "CoreML Player";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0D11159229880EE900D032C8 /* VideoDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetection.swift; sourceTree = "<group>"; };
@@ -84,6 +110,7 @@
 		0D97DD7A2984B0DA0030BC7A /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		0D97DD7C2984B11F0030BC7A /* Gallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gallery.swift; sourceTree = "<group>"; };
 		0D97DD7E2984B9BF0030BC7A /* LoadingGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingGallery.swift; sourceTree = "<group>"; };
+		0DADC3C9889E4D269B0454AE /* CoreMLPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreMLPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DC550EC298ECBB20088608C /* FPSChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSChartData.swift; sourceTree = "<group>"; };
 		0DC550EE298ECF910088608C /* FPSChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSChart.swift; sourceTree = "<group>"; };
 		0DDA121A29832D1700991BD0 /* CoreMLModelDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelDescriptionView.swift; sourceTree = "<group>"; };
@@ -97,6 +124,22 @@
 		0DFC8B92297C886700D1B3C9 /* Videos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
 		0DFC8B94297C88F800D1B3C9 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		0DFC8B96297C96FA00D1B3C9 /* CoreMLModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelView.swift; sourceTree = "<group>"; };
+		136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionPipelineTests.swift; sourceTree = "<group>"; };
+		2F3478EC064245388F50489B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLoadingTests.swift; sourceTree = "<group>"; };
+		80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionTests.swift; sourceTree = "<group>"; };
+		F1D100A0299C000100000001 /* BaseDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetectionTests.swift; sourceTree = "<group>"; };
+		F1D100A2299C000100000003 /* CoreMLModelFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelFormatTests.swift; sourceTree = "<group>"; };
+		F1D100A4299C000100000005 /* CoreMLModelOptimizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelOptimizationTests.swift; sourceTree = "<group>"; };
+		F1D100A6299C000100000007 /* FixtureBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureBuilder.swift; sourceTree = "<group>"; };
+		F1D100A8299C000100000009 /* MultiFunctionModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiFunctionModelTests.swift; sourceTree = "<group>"; };
+		F1D100AA299C00010000000B /* OverlaySnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySnapshotTests.swift; sourceTree = "<group>"; };
+		F1D100AC299C00010000000D /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
+		F1D100AE299C00010000000F /* VideoDetectionMetricsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionMetricsTests.swift; sourceTree = "<group>"; };
+		F1D100B0299C000100000011 /* VideoDetectionPixelFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionPixelFormatTests.swift; sourceTree = "<group>"; };
+		F1D100B2299C000100000013 /* VideoDetectionStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionStateTests.swift; sourceTree = "<group>"; };
+		F1D100B4299C000100000015 /* VideoDetectionTestDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionTestDoubles.swift; sourceTree = "<group>"; };
+		C80095392ED1CCA6006A1F60 /* CoreML Player.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreML Player.xctestplan"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +147,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE28BE67416D476B8DB74C4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				125F5E572F5849C3B8BE9F2D /* CoreML Player.app in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,8 +198,10 @@
 		0D680A1C297B38E7004F3839 = {
 			isa = PBXGroup;
 			children = (
+				C80095392ED1CCA6006A1F60 /* CoreML Player.xctestplan */,
 				0D680A27297B38E7004F3839 /* CoreMLPlayer */,
 				0D680A26297B38E7004F3839 /* Products */,
+				731C6B71F6CC400D8C912CAD /* CoreMLPlayerTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				0D680A25297B38E7004F3839 /* CoreML Player.app */,
+				0DADC3C9889E4D269B0454AE /* CoreMLPlayerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,6 +295,28 @@
 			path = Structs;
 			sourceTree = "<group>";
 		};
+		731C6B71F6CC400D8C912CAD /* CoreMLPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				F1D100A0299C000100000001 /* BaseDetectionTests.swift */,
+				78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */,
+				F1D100A2299C000100000003 /* CoreMLModelFormatTests.swift */,
+				F1D100A4299C000100000005 /* CoreMLModelOptimizationTests.swift */,
+				F1D100A6299C000100000007 /* FixtureBuilder.swift */,
+				F1D100A8299C000100000009 /* MultiFunctionModelTests.swift */,
+				F1D100AA299C00010000000B /* OverlaySnapshotTests.swift */,
+				F1D100AC299C00010000000D /* ProjectConfigurationTests.swift */,
+				80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */,
+				F1D100AE299C00010000000F /* VideoDetectionMetricsTests.swift */,
+				F1D100B0299C000100000011 /* VideoDetectionPixelFormatTests.swift */,
+				F1D100B2299C000100000013 /* VideoDetectionStateTests.swift */,
+				F1D100B4299C000100000015 /* VideoDetectionTestDoubles.swift */,
+				136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */,
+				2F3478EC064245388F50489B /* Info.plist */,
+			);
+			path = CoreMLPlayerTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -260,6 +336,24 @@
 			productName = CoreMLPlayer;
 			productReference = 0D680A25297B38E7004F3839 /* CoreML Player.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B3559561388448499FAD2F36 /* CoreMLPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F559AF08098947A08F82D262 /* Build configuration list for PBXNativeTarget "CoreMLPlayerTests" */;
+			buildPhases = (
+				5287F1F98D6844138659C860 /* Sources */,
+				BE28BE67416D476B8DB74C4E /* Frameworks */,
+				2F3478EC064245388F50489C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				78B86E38D81A415F8AA229B7 /* PBXTargetDependency */,
+			);
+			name = CoreMLPlayerTests;
+			productName = CoreMLPlayerTests;
+			productReference = 0DADC3C9889E4D269B0454AE /* CoreMLPlayerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -290,6 +384,7 @@
 			projectRoot = "";
 			targets = (
 				0D680A24297B38E7004F3839 /* CoreML Player */,
+				B3559561388448499FAD2F36 /* CoreMLPlayerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -301,6 +396,14 @@
 			files = (
 				0D680A30297B38E8004F3839 /* Preview Assets.xcassets in Resources */,
 				0D680A2D297B38E8004F3839 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2F3478EC064245388F50489C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5287F1F98D6844138659C85F /* YOLOv3Tiny.mlmodel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +457,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5287F1F98D6844138659C860 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1D100A1299C000100000002 /* BaseDetectionTests.swift in Sources */,
+				78B86E38D81A415F8AA229B5 /* ModelLoadingTests.swift in Sources */,
+				F1D100A3299C000100000004 /* CoreMLModelFormatTests.swift in Sources */,
+				F1D100A5299C000100000006 /* CoreMLModelOptimizationTests.swift in Sources */,
+				F1D100A7299C000100000008 /* FixtureBuilder.swift in Sources */,
+				F1D100A9299C00010000000A /* MultiFunctionModelTests.swift in Sources */,
+				F1D100AB299C00010000000C /* OverlaySnapshotTests.swift in Sources */,
+				F1D100AD299C00010000000E /* ProjectConfigurationTests.swift in Sources */,
+				80166255DF6740559D13CBF5 /* VideoDetectionTests.swift in Sources */,
+				F1D100AF299C000100000010 /* VideoDetectionMetricsTests.swift in Sources */,
+				F1D100B1299C000100000012 /* VideoDetectionPixelFormatTests.swift in Sources */,
+				F1D100B3299C000100000014 /* VideoDetectionStateTests.swift in Sources */,
+				F1D100B5299C000100000016 /* VideoDetectionTestDoubles.swift in Sources */,
+				136576A07E5B4251BA91A59D /* VisionPipelineTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		78B86E38D81A415F8AA229B7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D680A24297B38E7004F3839 /* CoreML Player */;
+			targetProxy = 80166255DF6740559D13CBF7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0D680A32297B38E8004F3839 /* Debug */ = {
@@ -407,7 +539,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -461,7 +593,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -491,7 +623,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = useYourOwn.Identifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -521,12 +653,55 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = useYourOwn.Identifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		0DA47494F3DF4786A25EC365 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = CoreMLPlayerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoreMLPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreML Player.app/Contents/MacOS/CoreML Player";
+			};
+			name = Debug;
+		};
+		0DF19DE3679F402B8A38A14A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = CoreMLPlayerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoreMLPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreML Player.app/Contents/MacOS/CoreML Player";
 			};
 			name = Release;
 		};
@@ -547,6 +722,15 @@
 			buildConfigurations = (
 				0D680A35297B38E8004F3839 /* Debug */,
 				0D680A36297B38E8004F3839 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F559AF08098947A08F82D262 /* Build configuration list for PBXNativeTarget "CoreMLPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0DA47494F3DF4786A25EC365 /* Debug */,
+				0DF19DE3679F402B8A38A14A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
