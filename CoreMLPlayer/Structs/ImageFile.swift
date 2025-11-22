@@ -52,6 +52,11 @@ struct ImageFile: File, Identifiable {
     }
     
     func getNSImage() -> NSImage? {
+        #if DEBUG
+        if let override = ImageFile.nsImageOverrideForTests {
+            return override
+        }
+        #endif
         if nsImage != nil {
             return nsImage
         } else {
@@ -86,3 +91,9 @@ extension ImageFile: Equatable {
         return lhs.id == rhs.id && lhs.url == rhs.url
     }
 }
+
+#if DEBUG
+extension ImageFile {
+    static var nsImageOverrideForTests: NSImage?
+}
+#endif

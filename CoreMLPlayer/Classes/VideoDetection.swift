@@ -9,6 +9,7 @@ import CoreML
 import AVKit
 import Vision
 import Combine
+import ImageIO
 
 class VideoDetection: Base, ObservableObject {
     @Published var playMode = PlayModes.normal {
@@ -32,9 +33,15 @@ class VideoDetection: Base, ObservableObject {
     private var fpsDisplay = 0
     private var chartDuration: Duration = .zero
     private var playerOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: nil)
+    private var videoOutputAttributes: [String: Any]?
     private var timeTracker = DispatchTime.now()
     private var lastDetectionTime: Double = 0
     private var videoHasEnded = false
+    private var idealFormat: (width: Int, height: Int, type: OSType)?
+    private var videoOrientation: CGImagePropertyOrientation = .up
+    private var stateFrameCounter: Int = 0
+    private var droppedFrames: Int = 0
+    private var warmupCompleted = false
     
     var videoURL: URL? {
         didSet {
@@ -87,6 +94,14 @@ class VideoDetection: Base, ObservableObject {
     
     func setModel(_ vnModel: VNCoreMLModel?) {
         model = vnModel
+        stateFrameCounter = 0
+        droppedFrames = 0
+        warmupCompleted = false
+    }
+
+    func setIdealFormat(_ format: (width: Int, height: Int, type: OSType)?) {
+        idealFormat = format
+        configureVideoOutputIfNeeded()
     }
     
     func playManager() {
@@ -141,6 +156,24 @@ class VideoDetection: Base, ObservableObject {
         return interval
     }
     
+    /// Simple guard to verify detection time stays within a budget (defaults to 50ms).
+    func isWithinLatencyBudget(budgetMs: Double = 50) -> Bool {
+        return (lastDetectionTime * 1000) <= budgetMs
+    }
+
+    private func configureVideoOutputIfNeeded() {
+        var attrs: [String: Any]? = nil
+        if let idealFormat {
+            attrs = [
+                kCVPixelBufferPixelFormatTypeKey as String: idealFormat.type,
+                kCVPixelBufferWidthKey as String: idealFormat.width,
+                kCVPixelBufferHeightKey as String: idealFormat.height
+            ]
+        }
+        videoOutputAttributes = attrs
+        playerOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: attrs)
+    }
+    
     func prepareToPlay(videoURL: URL?) async {
         guard let url = videoURL,
               url.isFileURL,
@@ -158,6 +191,7 @@ class VideoDetection: Base, ObservableObject {
                 let (frameRate, size) = try await videoTrack.load(.nominalFrameRate, .naturalSize)
                 let (isPlayable, duration) = try await asset.load(.isPlayable, .duration)
                 let playerItem = AVPlayerItem(asset: asset)
+                configureVideoOutputIfNeeded()
                 playerItem.add(playerOutput)
                 
                 DispatchQueue.main.async {
@@ -235,17 +269,28 @@ class VideoDetection: Base, ObservableObject {
     }
     
     func detectObjectsInFrame(completion: (() -> ())? = nil) {
-        guard let pixelBuffer = getPixelBuffer(), let model else { return }
+        guard let model else { completion?(); return }
+        guard let pixelBuffer = getPixelBuffer() else {
+            recordDroppedFrame()
+            completion?()
+            return
+        }
         
         // Process the frame
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
-        let detectionResult = performObjectDetection(requestHandler: handler, vnModel: model)
+        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: videoOrientation, options: [:])
+        #if DEBUG
+        VideoDetection.sharedLastVideoOrientation = videoOrientation
+        #endif
+        let cropOption = cropOptionForIdealFormat()
+        let detectionResult = performObjectDetection(requestHandler: handler, vnModel: model, functionName: CoreMLModel.sharedSelectedFunction, cropAndScale: cropOption)
         
         DispatchQueue.main.async {
+            let isWarmup = self.warmupCompleted == false
+            self.warmupCompleted = true
             self.frameObjects = detectionResult.objects
             self.fpsCounter += 1
             let timePassed = DispatchTime.now().uptimeNanoseconds - self.timeTracker.uptimeNanoseconds
-            if timePassed >= 1_000_000_000 {
+            if timePassed >= 1_000_000_000 && !isWarmup {
                 self.chartDuration += .seconds(1)
                 if let detFPSDouble = Double(detectionResult.detectionFPS),
                    self.playMode == .maxFPS
@@ -268,7 +313,7 @@ class VideoDetection: Base, ObservableObject {
             
             var stats: [Stats] = []
             
-            if self.playMode == .maxFPS {
+            if self.playMode == .maxFPS && !isWarmup {
                 stats.append(Stats(key: "FPS", value: "\(self.fpsDisplay)"))
                 stats.append(Stats(key: "Det. FPS", value: "\(detectionResult.detectionFPS)"))
             }
@@ -276,15 +321,20 @@ class VideoDetection: Base, ObservableObject {
             let detTime = Double(detectionResult.detectionTime.replacingOccurrences(of: " ms", with: "")) ?? 0
             self.lastDetectionTime = detTime / 1000
             
-            stats += [
-                Stats(key: "Det. Objects", value: "\(detectionResult.objects.count)"),
-                Stats(key: "Det. Time", value: "\(detectionResult.detectionTime)"),
-                Stats(key: "-", value: ""), // Divider
-                Stats(key: "Width", value: "\(self.videoInfo.size.width)"),
-                Stats(key: "Height", value: "\(self.videoInfo.size.height)")
-            ]
+            if !isWarmup {
+                stats += [
+                    Stats(key: "Det. Objects", value: "\(detectionResult.objects.count)"),
+                    Stats(key: "Det. Time", value: "\(detectionResult.detectionTime)"),
+                    Stats(key: "Dropped Frames", value: "\(self.droppedFrames)"),
+                    Stats(key: "-", value: ""), // Divider
+                    Stats(key: "Width", value: "\(self.videoInfo.size.width)"),
+                    Stats(key: "Height", value: "\(self.videoInfo.size.height)")
+                ]
+            }
             
-            DetectionStats.shared.addMultiple(stats)
+            if !stats.isEmpty {
+                DetectionStats.shared.addMultiple(stats)
+            }
             
             if completion != nil {
                 completion!()
@@ -303,6 +353,15 @@ class VideoDetection: Base, ObservableObject {
         
         return nil
     }
+    
+    private func recordDroppedFrame() {
+        droppedFrames += 1
+        if warmupCompleted {
+            DetectionStats.shared.addMultiple([
+                Stats(key: "Dropped Frames", value: "\(droppedFrames)")
+            ])
+        }
+    }
 }
 
 #if DEBUG
@@ -316,6 +375,36 @@ extension VideoDetection {
     func setLastDetectionTimeForTesting(_ value: Double) {
         lastDetectionTime = value
     }
+
+    /// Test-only helper to set ideal format.
+    func setIdealFormatForTesting(_ format: (width: Int, height: Int, type: OSType)?) {
+        setIdealFormat(format)
+    }
+
+    /// Test-only helper to set orientation.
+    func setVideoOrientationForTesting(_ orientation: CGImagePropertyOrientation) {
+        videoOrientation = orientation
+    }
+
+    static var sharedLastVideoOrientation: CGImagePropertyOrientation?
+
+    func getPixelBufferAttributesForTesting() -> [String: Any]? {
+        return videoOutputAttributes
+    }
+
+    /// Test-only helper to run detection on a supplied pixel buffer, returning the state counter.
+    func detectPixelBufferForTesting(_ pixelBuffer: CVPixelBuffer) -> (objects: [DetectedObject], stateFrameCounter: Int) {
+        guard let model else { return ([], stateFrameCounter) }
+        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: videoOrientation, options: [:])
+        VideoDetection.sharedLastVideoOrientation = videoOrientation
+        let result = performObjectDetection(requestHandler: handler, vnModel: model, functionName: CoreMLModel.sharedSelectedFunction, cropAndScale: cropOptionForIdealFormat())
+        stateFrameCounter += 1
+        return (result.objects, stateFrameCounter)
+    }
+    
+    /// Expose internal counters for tests.
+    func metricsForTesting() -> (droppedFrames: Int, warmupCompleted: Bool, lastDetectionTime: Double, stateFrameCounter: Int) {
+        return (droppedFrames, warmupCompleted, lastDetectionTime, stateFrameCounter)
+    }
 }
 #endif
-

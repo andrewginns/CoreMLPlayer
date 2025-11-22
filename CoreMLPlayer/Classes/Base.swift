@@ -8,6 +8,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import Vision
+import ImageIO
 
 class Base {
     typealias detectionOutput = (objects: [DetectedObject], detectionTime: String, detectionFPS: String)
@@ -39,30 +40,40 @@ class Base {
     
     func detectImageObjects(image: ImageFile?, model: VNCoreMLModel?) -> detectionOutput {
         guard let vnModel = model,
-              let nsImage = image?.getNSImage()
+              let nsImage = image?.getNSImage(),
+              let cgImage = nsImage.cgImageForCurrentRepresentation
         else {
             return emptyDetection
         }
-        
-        guard let tiffImage = nsImage.tiffRepresentation else {
-            showAlert(title: "Failed to convert image!")
-            return emptyDetection
-        }
-        
-        return performObjectDetection(requestHandler: VNImageRequestHandler(data: tiffImage), vnModel: vnModel)
+
+        let orientation = nsImage.cgImagePropertyOrientation ?? .up
+        #if DEBUG
+        Base.sharedLastImageOrientation = orientation
+        #endif
+
+        let handler = VNImageRequestHandler(cgImage: cgImage, orientation: orientation, options: [:])
+        let cropOption = cropOptionForIdealFormat()
+        return performObjectDetection(requestHandler: handler, vnModel: vnModel, functionName: CoreMLModel.sharedSelectedFunction, cropAndScale: cropOption)
     }
     
-    func performObjectDetection(requestHandler: VNImageRequestHandler, vnModel: VNCoreMLModel) -> detectionOutput {
+    func performObjectDetection(requestHandler: VNImageRequestHandler, vnModel: VNCoreMLModel, functionName: String? = nil, cropAndScale: VNImageCropAndScaleOption = .scaleFill) -> detectionOutput {
         var observationResults: [VNObservation]?
         let request = VNCoreMLRequest(model: vnModel) { (request, error) in
             observationResults = request.results
         }
-        
-        request.imageCropAndScaleOption = .scaleFill
-        
-        
+        request.imageCropAndScaleOption = cropAndScale
+        #if DEBUG
+        Base.sharedLastFunctionName = functionName
+        #endif
+
         let detectionTime = ContinuousClock().measure {
-            try? requestHandler.perform([request])
+            do {
+                try requestHandler.perform([request])
+            } catch {
+                #if DEBUG
+                Base.sharedLastError = error
+                #endif
+            }
         }
         
         return asDetectedObjects(visionObservationResults: observationResults, detectionTime: detectionTime)
@@ -138,19 +149,40 @@ class Base {
     }
     
     func checkModelIO(modelDescription: MLModelDescription) throws {
-        if !modelDescription.inputDescriptionsByName.contains(where: { $0.key.contains("image") }) {
+        let inputs = modelDescription.inputDescriptionsByName.values
+        let outputs = modelDescription.outputDescriptionsByName.values
+
+        let hasImageInput = inputs.contains { $0.type == .image }
+        if !hasImageInput {
             DispatchQueue.main.async {
                 self.showAlert(title: "This model does not accept Images as an input, and at the moment is not supported.")
             }
             throw MLModelError(.io)
         }
-        
-        if !modelDescription.outputDescriptionsByName.contains(where: { $0.key.contains("coordinate") || $0.key.contains("confidence") || $0.key.contains("class") }) {
+
+        let supportsOutput = outputs.contains { desc in
+            switch desc.type {
+            case .multiArray, .dictionary, .string:
+                return true
+            default:
+                return false
+            }
+        }
+
+        if !supportsOutput {
             DispatchQueue.main.async {
                 self.showAlert(title: "This model is not of type Object Detection or Classification, and at the moment is not supported.")
             }
             throw MLModelError(.io)
         }
+    }
+
+    /// Derive crop-and-scale based on the ideal format if available (square ⇒ centerCrop, otherwise scaleFit)
+    func cropOptionForIdealFormat() -> VNImageCropAndScaleOption {
+        if let format = CoreMLModel.sharedIdealFormat {
+            return format.width == format.height ? .centerCrop : .scaleFit
+        }
+        return .scaleFill
     }
     
     func prepareObjectForSwiftUI(object: DetectedObject, geometry: GeometryProxy) -> CGRect {
@@ -171,6 +203,23 @@ extension NSImage {
         guard representations.count > 0 else { return .zero }
         return NSSize(width: representations[0].pixelsWide, height: representations[0].pixelsHigh)
     }
+
+    /// Current CGImage for the representation, if available.
+    var cgImageForCurrentRepresentation: CGImage? {
+        return cgImage(forProposedRect: nil, context: nil, hints: nil)
+    }
+
+    /// EXIF orientation mapping for Vision handlers.
+    var cgImagePropertyOrientation: CGImagePropertyOrientation? {
+        guard let tiffData = self.tiffRepresentation,
+              let source = CGImageSourceCreateWithData(tiffData as CFData, nil),
+              let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
+              let raw = properties[kCGImagePropertyOrientation] as? UInt32,
+              let orientation = CGImagePropertyOrientation(rawValue: raw) else {
+            return nil
+        }
+        return orientation
+    }
 }
 
 extension VNRecognizedObjectObservation: Identifiable {
@@ -181,3 +230,14 @@ extension VNRecognizedObjectObservation: Identifiable {
         return lhs.uuid == rhs.uuid
     }
 }
+
+#if DEBUG
+extension Base {
+    /// Last used image orientation (testing only).
+    static var sharedLastImageOrientation: CGImagePropertyOrientation?
+    /// Last Vision error encountered (testing only).
+    static var sharedLastError: Error?
+    /// Last function name requested on a VNCoreMLRequest (testing only).
+    static var sharedLastFunctionName: String?
+}
+#endif

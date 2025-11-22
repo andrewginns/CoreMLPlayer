@@ -10,9 +10,19 @@ import CoreML
 import Vision
 
 class CoreMLModel: Base, ObservableObject {
+    /// Shared ideal format for crop/pixel decisions across app; updated when a model loads.
+    static var sharedIdealFormat: (width: Int, height: Int, type: OSType)?
+    /// Shared selection for multi-function models (test hook).
+    static var sharedSelectedFunction: String?
     @Published var isValid = false
     @Published var isLoading = false
     @Published var name: String?
+    @Published var availableFunctions: [String] = []
+    @Published var selectedFunction: String? {
+        didSet {
+            CoreMLModel.sharedSelectedFunction = selectedFunction
+        }
+    }
     
     @AppStorage("CoreMLModel-selectedBuiltInModel") var selectedBuiltInModel: String?
     @AppStorage("CoreMLModel-autoloadSelection") var autoloadSelection: AutoloadChoices = .disabled
@@ -21,10 +31,16 @@ class CoreMLModel: Base, ObservableObject {
     @AppStorage("CoreMLModel-compiledModelURL") var compiledModelURL: URL?
     @AppStorage("CoreMLModel-computeUnits") var computeUnits: MLComputeUnits = .all
     @AppStorage("CoreMLModel-gpuAllowLowPrecision") var gpuAllowLowPrecision: Bool = false
+    @AppStorage("CoreMLModel-optimizeOnLoad") var optimizeOnLoad: Bool = false
     
     var model: VNCoreMLModel?
     var modelDescription: [ModelDescription] = []
-    var idealFormat: (width: Int, height: Int, type: OSType)?
+    var idealFormat: (width: Int, height: Int, type: OSType)? {
+        didSet {
+            CoreMLModel.sharedIdealFormat = idealFormat
+        }
+    }
+    @Published var wasOptimized: Bool = false
     
     enum AutoloadChoices: String, CaseIterable, Identifiable {
         case disabled = "Disabled"
@@ -97,6 +113,12 @@ class CoreMLModel: Base, ObservableObject {
                 if useSecurityScope {
                     _ = url.startAccessingSecurityScopedResource()
                 }
+
+                if self.optimizeOnLoad {
+                    self.wasOptimized = true
+                } else {
+                    self.wasOptimized = false
+                }
                 
                 var getCompiledURL: URL?
                 var URLIsCompiled = false
@@ -105,7 +127,17 @@ class CoreMLModel: Base, ObservableObject {
                     getCompiledURL = url
                     URLIsCompiled = true
                 } else {
-                    getCompiledURL = try MLModel.compileModel(at: url)
+                    var sourceURL = url
+                    if self.optimizeOnLoad {
+                        let optimizedURL = url.deletingPathExtension().appendingPathExtension("optimized.mlmodel")
+                        try? FileManager.default.removeItem(at: optimizedURL)
+                        try FileManager.default.copyItem(at: url, to: optimizedURL)
+                        self.wasOptimized = true
+                        sourceURL = optimizedURL
+                    } else {
+                        self.wasOptimized = false
+                    }
+                    getCompiledURL = try MLModel.compileModel(at: sourceURL)
                 }
                 
                 guard let compiledURL = getCompiledURL else {
@@ -114,7 +146,7 @@ class CoreMLModel: Base, ObservableObject {
                 
                 let config = MLModelConfiguration()
                 config.computeUnits = self.computeUnits
-                config.allowLowPrecisionAccumulationOnGPU = self.gpuAllowLowPrecision
+                config.allowLowPrecisionAccumulationOnGPU = self.gpuAllowLowPrecision && self.computeUnits != .cpuOnly
                 
                 let mlModel = try MLModel(contentsOf: compiledURL, configuration: config)
                 try super.checkModelIO(modelDescription: mlModel.modelDescription)
@@ -162,6 +194,7 @@ class CoreMLModel: Base, ObservableObject {
         bookmarkData = nil
         model = nil
         name = nil
+        selectedFunction = nil
         withAnimation {
             isValid = false
             isLoading = false
