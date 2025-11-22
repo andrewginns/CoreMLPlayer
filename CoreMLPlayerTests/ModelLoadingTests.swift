@@ -4,13 +4,21 @@ import CoreML
 import Vision
 
 final class ModelLoadingTests: XCTestCase {
-    func testModelCompilationAndConfiguration() throws {
-        guard let modelURL = Bundle(for: type(of: self)).url(forResource: "YOLOv3Tiny", withExtension: "mlmodel") else {
-            XCTFail("Missing YOLOv3Tiny.mlmodel in test bundle")
-            return
+    private func compiledModelURL() throws -> URL {
+        if let compiledURL = Bundle(for: type(of: self)).url(forResource: "YOLOv3Tiny", withExtension: "mlmodelc") {
+            return compiledURL
         }
 
-        let compiledURL = try MLModel.compileModel(at: modelURL)
+        guard let rawURL = Bundle(for: type(of: self)).url(forResource: "YOLOv3Tiny", withExtension: "mlmodel") else {
+            XCTFail("Missing YOLOv3Tiny model in test bundle")
+            throw XCTSkip("Model fixture unavailable")
+        }
+
+        return try MLModel.compileModel(at: rawURL)
+    }
+
+    func testModelCompilationAndConfiguration() throws {
+        let compiledURL = try compiledModelURL()
         let configuration = MLModelConfiguration()
         configuration.computeUnits = .cpuOnly
         configuration.allowLowPrecisionAccumulationOnGPU = true
@@ -24,12 +32,7 @@ final class ModelLoadingTests: XCTestCase {
     }
 
     func testModelWarmupRequestSucceeds() throws {
-        guard let modelURL = Bundle(for: type(of: self)).url(forResource: "YOLOv3Tiny", withExtension: "mlmodel") else {
-            XCTFail("Missing YOLOv3Tiny.mlmodel in test bundle")
-            return
-        }
-
-        let compiledURL = try MLModel.compileModel(at: modelURL)
+        let compiledURL = try compiledModelURL()
         let mlModel = try MLModel(contentsOf: compiledURL)
         let vnModel = try VNCoreMLModel(for: mlModel)
 
