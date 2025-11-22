@@ -182,7 +182,7 @@ struct DrawSettingsPopover: View {
                            maximumValueLabel: Text("1"),
                            label: {}
                     )
-                    .onChange(of: drawSettings.confidenceLimit) { _ in
+                    .onChange(of: drawSettings.confidenceLimit) { _, _ in
                         presentConfidencePopover = true
                     }
                     .popover(isPresented: $presentConfidencePopover) {

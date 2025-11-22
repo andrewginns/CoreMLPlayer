@@ -71,15 +71,17 @@ class Images: Base, Gallery, ObservableObject {
     
     func detectImageObjects(imageFile: ImageFile?, model: VNCoreMLModel?) -> [DetectedObject] {
         let (detectedObjects, detectionTime, _) = super.detectImageObjects(image: imageFile, model: model)
-        
-        DetectionStats.shared.addMultiple([
-            Stats(key: "Det. Objects", value: "\(detectedObjects.count)"),
-            Stats(key: "Time", value: "\(detectionTime)"),
-            Stats(key: "-", value: ""), // Divider
-            Stats(key: "Width", value: "\(currentNSImageDetails().width)"),
-            Stats(key: "Height", value: "\(currentNSImageDetails().height)")
-        ])
-        
+
+        DispatchQueue.main.async {
+            DetectionStats.shared.addMultiple([
+                Stats(key: "Det. Objects", value: "\(detectedObjects.count)"),
+                Stats(key: "Time", value: "\(detectionTime)"),
+                Stats(key: "-", value: ""), // Divider
+                Stats(key: "Width", value: "\(self.currentNSImageDetails().width)"),
+                Stats(key: "Height", value: "\(self.currentNSImageDetails().height)")
+            ])
+        }
+
         return detectedObjects
     }
     

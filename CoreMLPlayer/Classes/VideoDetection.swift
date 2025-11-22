@@ -45,8 +45,9 @@ class VideoDetection: Base, ObservableObject {
     
     var videoURL: URL? {
         didSet {
-            Task {
-                await prepareToPlay(videoURL: videoURL)
+            let url = videoURL
+            Task { [weak self, url] in
+                await self?.prepareToPlay(videoURL: url)
             }
         }
     }
@@ -101,13 +102,13 @@ class VideoDetection: Base, ObservableObject {
 
     func setIdealFormat(_ format: (width: Int, height: Int, type: OSType)?) {
         idealFormat = format
-        configureVideoOutputIfNeeded()
+        configureVideoOutputIfNeeded(attachedTo: player?.currentItem)
     }
     
     func playManager() {
         if let playerItem = player?.currentItem, playerItem.currentTime() >= playerItem.duration {
             player?.seek(to: CMTime.zero)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.1) {
                 self.detectObjectsInFrame()
             }
             videoHasEnded = true
@@ -143,17 +144,17 @@ class VideoDetection: Base, ObservableObject {
     }
     
     func getRepeatInterval(_ reduceLastDetectionTime: Bool = true) -> Double {
-        var interval = 0.0
-        if videoInfo.frameRate > 0 {
-            interval = (1 / videoInfo.frameRate)
-        } else {
-            interval = 30
+        let nominalFrameInterval = videoInfo.frameRate > 0 ? (1.0 / videoInfo.frameRate) : (1.0 / 30.0)
+
+        guard reduceLastDetectionTime else {
+            return nominalFrameInterval
         }
-        
-        if reduceLastDetectionTime {
-            interval = max((interval - lastDetectionTime), 0.02)
-        }
-        return interval
+
+        let minInterval = max(0.02, lastDetectionTime * 0.5)
+        let maxInterval = max(nominalFrameInterval + lastDetectionTime, nominalFrameInterval * 2)
+        let adjusted = nominalFrameInterval - lastDetectionTime
+
+        return min(max(adjusted, minInterval), maxInterval)
     }
     
     /// Simple guard to verify detection time stays within a budget (defaults to 50ms).
@@ -161,7 +162,8 @@ class VideoDetection: Base, ObservableObject {
         return (lastDetectionTime * 1000) <= budgetMs
     }
 
-    private func configureVideoOutputIfNeeded() {
+    private func configureVideoOutputIfNeeded(attachedTo playerItem: AVPlayerItem? = nil) {
+        let oldOutput = playerOutput
         var attrs: [String: Any]? = nil
         if let idealFormat {
             attrs = [
@@ -172,8 +174,14 @@ class VideoDetection: Base, ObservableObject {
         }
         videoOutputAttributes = attrs
         playerOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: attrs)
+
+        if let item = playerItem {
+            item.remove(oldOutput)
+            item.add(playerOutput)
+        }
     }
     
+    @MainActor
     func prepareToPlay(videoURL: URL?) async {
         guard let url = videoURL,
               url.isFileURL,
@@ -189,10 +197,12 @@ class VideoDetection: Base, ObservableObject {
             if let videoTrack = try await asset.loadTracks(withMediaType: .video).first
             {
                 let (frameRate, size) = try await videoTrack.load(.nominalFrameRate, .naturalSize)
+                let transform = try await videoTrack.load(.preferredTransform)
                 let (isPlayable, duration) = try await asset.load(.isPlayable, .duration)
                 let playerItem = AVPlayerItem(asset: asset)
                 configureVideoOutputIfNeeded()
                 playerItem.add(playerOutput)
+                self.videoOrientation = Self.orientation(from: transform)
                 
                 DispatchQueue.main.async {
                     self.videoInfo.frameRate = Double(frameRate)
@@ -247,10 +257,12 @@ class VideoDetection: Base, ObservableObject {
         guard getPlayerItemIfContinuing(mode: .normal) != nil else {
             return
         }
-        
-        self.detectObjectsInFrame() {
-            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + self.getRepeatInterval()) { [weak self] in
-                self?.startNormalDetection()
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.detectObjectsInFrame() {
+                DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + self.getRepeatInterval()) { [weak self] in
+                    self?.startNormalDetection()
+                }
             }
         }
     }
@@ -277,12 +289,11 @@ class VideoDetection: Base, ObservableObject {
         }
         
         // Process the frame
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: videoOrientation, options: [:])
         #if DEBUG
         VideoDetection.sharedLastVideoOrientation = videoOrientation
         #endif
         let cropOption = cropOptionForIdealFormat()
-        let detectionResult = performObjectDetection(requestHandler: handler, vnModel: model, functionName: CoreMLModel.sharedSelectedFunction, cropAndScale: cropOption)
+        let detectionResult = performObjectDetection(pixelBuffer: pixelBuffer, orientation: videoOrientation, vnModel: model, functionName: CoreMLModel.sharedSelectedFunction, cropAndScale: cropOption)
         
         DispatchQueue.main.async {
             let isWarmup = self.warmupCompleted == false
@@ -320,6 +331,7 @@ class VideoDetection: Base, ObservableObject {
             
             let detTime = Double(detectionResult.detectionTime.replacingOccurrences(of: " ms", with: "")) ?? 0
             self.lastDetectionTime = detTime / 1000
+            self.stateFrameCounter += 1
             
             if !isWarmup {
                 stats += [
@@ -348,7 +360,25 @@ class VideoDetection: Base, ObservableObject {
     
     func getPixelBuffer() -> CVPixelBuffer? {
         if let currentTime = player?.currentTime() {
-            return playerOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil)
+            if let buffer = playerOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) {
+                return buffer
+            }
+
+            // Fallback: if ideal format was too strict, downgrade to default BGRA
+            if videoOutputAttributes != nil, let item = player?.currentItem {
+                let reattach = {
+                    item.remove(self.playerOutput)
+                    self.playerOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: nil)
+                    self.videoOutputAttributes = nil
+                    item.add(self.playerOutput)
+                }
+                if Thread.isMainThread {
+                    reattach()
+                } else {
+                    DispatchQueue.main.sync { reattach() }
+                }
+                return playerOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil)
+            }
         }
         
         return nil
@@ -386,7 +416,25 @@ extension VideoDetection {
         videoOrientation = orientation
     }
 
+    private static func orientation(from transform: CGAffineTransform) -> CGImagePropertyOrientation {
+        // Derived from AVAssetTrack preferredTransform conventions
+        switch (transform.a, transform.b, transform.c, transform.d) {
+        case (0, 1, -1, 0):
+            return .right
+        case (0, -1, 1, 0):
+            return .left
+        case (1, 0, 0, 1):
+            return .up
+        case (-1, 0, 0, -1):
+            return .down
+        default:
+            return .up
+        }
+    }
+
     static var sharedLastVideoOrientation: CGImagePropertyOrientation?
+    /// Optional override buffer to drive fallback tests.
+    static var testFallbackPixelBuffer: CVPixelBuffer?
 
     func getPixelBufferAttributesForTesting() -> [String: Any]? {
         return videoOutputAttributes
@@ -395,11 +443,18 @@ extension VideoDetection {
     /// Test-only helper to run detection on a supplied pixel buffer, returning the state counter.
     func detectPixelBufferForTesting(_ pixelBuffer: CVPixelBuffer) -> (objects: [DetectedObject], stateFrameCounter: Int) {
         guard let model else { return ([], stateFrameCounter) }
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: videoOrientation, options: [:])
         VideoDetection.sharedLastVideoOrientation = videoOrientation
-        let result = performObjectDetection(requestHandler: handler, vnModel: model, functionName: CoreMLModel.sharedSelectedFunction, cropAndScale: cropOptionForIdealFormat())
+        let result = performObjectDetection(pixelBuffer: pixelBuffer, orientation: videoOrientation, vnModel: model, functionName: CoreMLModel.sharedSelectedFunction, cropAndScale: cropOptionForIdealFormat())
         stateFrameCounter += 1
         return (result.objects, stateFrameCounter)
+    }
+
+    /// Force the pixel-buffer fallback path without needing an AVPlayer instance.
+    func forcePixelBufferFallbackForTesting() -> CVPixelBuffer? {
+        guard videoOutputAttributes != nil else { return nil }
+        videoOutputAttributes = nil
+        playerOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: nil)
+        return VideoDetection.testFallbackPixelBuffer
     }
     
     /// Expose internal counters for tests.
