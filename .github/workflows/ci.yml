@@ -1,8 +1,8 @@
 name: CoreML Player CI
 
 on:
-  push:
   pull_request:
+    types: [opened, synchronize]
 
 jobs:
   tests:
