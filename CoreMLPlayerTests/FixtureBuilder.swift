@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import CoreML
 
 /// Utility to lazily generate lightweight Core ML fixtures (multi-function, stateful) using Python + coremltools when available.
 /// Tests call these helpers and skip gracefully if tooling or platform support is missing.
@@ -67,7 +68,6 @@ out.parent.mkdir(parents=True, exist_ok=True)
 
 # Build two trivial functions (y = x and y = x + 1)
 def make_model(offset):
-    import numpy as np
     from coremltools.models import neural_network as nn
     from coremltools.models import datatypes
     input_features = [("x", datatypes.Array(1))]
@@ -76,10 +76,7 @@ def make_model(offset):
     builder.add_elementwise(name="add", input_names=["x"], output_name="y", mode="ADD", alpha=offset)
     return builder.spec
 
-specs = {
-    "identity": make_model(0.0),
-    "plus_one": make_model(1.0),
-}
+specs = {"identity": make_model(0.0), "plus_one": make_model(1.0)}
 
 try:
     ct.models.multifunction.save_multifunction(specs, str(out))
@@ -100,7 +97,6 @@ out.parent.mkdir(parents=True, exist_ok=True)
 
 # Minimal stateful counter: state_out = state_in + x; y = state_out
 try:
-    import numpy as np
     from coremltools.models import datatypes
     from coremltools.models.neural_network import NeuralNetworkBuilder
 
@@ -122,8 +118,8 @@ except Exception as e:
         }
 
         let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/bin/zsh")
-        process.arguments = ["-lc", "python3 - <<'PY'\n\(script)\nPY"]
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
+        process.arguments = ["-c", script]
 
         let pipe = Pipe()
         process.standardError = pipe
@@ -131,11 +127,15 @@ except Exception as e:
         try process.run()
         process.waitUntilExit()
 
+        let err = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+
         if process.terminationStatus == 2 {
             throw XCTSkip("coremltools not available; skipping \(kind.rawValue) fixture generation.")
         }
         if process.terminationStatus != 0 {
-            let err = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+            if err.contains("App Sandbox") || err.contains("xcrun: error") {
+                throw XCTSkip("Fixture generation not permitted in sandbox: \(err)")
+            }
             throw FixtureError.generationFailed(err)
         }
     }

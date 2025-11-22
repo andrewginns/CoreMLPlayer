@@ -29,6 +29,15 @@ final class VisionPipelineTests: XCTestCase {
         XCTAssertEqual(rect.origin.y, 50)
         XCTAssertEqual(rect.size.width, 100)
     }
+
+    func testOverlayRectMatchesLetterboxedMath() {
+        let base = Base()
+        let normalized = CGRect(x: 0.25, y: 0.25, width: 0.5, height: 0.25)
+        let rect = base.rectForNormalizedRect(normalizedRect: normalized, width: 200, height: 100)
+        XCTAssertEqual(rect.width, 100, accuracy: 0.1)
+        XCTAssertEqual(rect.height, 25, accuracy: 0.1)
+        XCTAssertEqual(rect.origin.y, 50, accuracy: 0.1)
+    }
 }
 
 extension VNClassificationObservation {

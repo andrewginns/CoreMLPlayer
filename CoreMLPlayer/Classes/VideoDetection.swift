@@ -88,6 +88,9 @@ class VideoDetection: Base, ObservableObject {
     func disappearing() {
         playing = false
         frameObjects = []
+        stateFrameCounter = 0
+        droppedFrames = 0
+        warmupCompleted = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             DetectionStats.shared.items = []
         }

@@ -54,8 +54,17 @@
 		5287F1F98D6844138659C85F /* YOLOv3Tiny.mlmodel in Resources */ = {isa = PBXBuildFile; fileRef = 0D73DBF3298B3757005D214B /* YOLOv3Tiny.mlmodel */; };
 		78B86E38D81A415F8AA229B5 /* ModelLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */; };
 		80166255DF6740559D13CBF5 /* VideoDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */; };
-		A1B2C3D4299B000100000002 /* ModernizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4299B000100000001 /* ModernizationTests.swift */; };
-		A1B2C3D5299B00F700000003 /* ModernizationAdvancedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D5299B00F700000004 /* ModernizationAdvancedTests.swift */; };
+		F1D100A1299C000100000002 /* BaseDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A0299C000100000001 /* BaseDetectionTests.swift */; };
+		F1D100A3299C000100000004 /* CoreMLModelFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A2299C000100000003 /* CoreMLModelFormatTests.swift */; };
+		F1D100A5299C000100000006 /* CoreMLModelOptimizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A4299C000100000005 /* CoreMLModelOptimizationTests.swift */; };
+		F1D100A7299C000100000008 /* FixtureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A6299C000100000007 /* FixtureBuilder.swift */; };
+		F1D100A9299C00010000000A /* MultiFunctionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100A8299C000100000009 /* MultiFunctionModelTests.swift */; };
+		F1D100AB299C00010000000C /* OverlaySnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100AA299C00010000000B /* OverlaySnapshotTests.swift */; };
+		F1D100AD299C00010000000E /* ProjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100AC299C00010000000D /* ProjectConfigurationTests.swift */; };
+		F1D100AF299C000100000010 /* VideoDetectionMetricsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100AE299C00010000000F /* VideoDetectionMetricsTests.swift */; };
+		F1D100B1299C000100000012 /* VideoDetectionPixelFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100B0299C000100000011 /* VideoDetectionPixelFormatTests.swift */; };
+		F1D100B3299C000100000014 /* VideoDetectionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100B2299C000100000013 /* VideoDetectionStateTests.swift */; };
+		F1D100B5299C000100000016 /* VideoDetectionTestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100B4299C000100000015 /* VideoDetectionTestDoubles.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,8 +128,17 @@
 		2F3478EC064245388F50489B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLoadingTests.swift; sourceTree = "<group>"; };
 		80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionTests.swift; sourceTree = "<group>"; };
-		A1B2C3D4299B000100000001 /* ModernizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernizationTests.swift; sourceTree = "<group>"; };
-		A1B2C3D5299B00F700000004 /* ModernizationAdvancedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernizationAdvancedTests.swift; sourceTree = "<group>"; };
+		F1D100A0299C000100000001 /* BaseDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetectionTests.swift; sourceTree = "<group>"; };
+		F1D100A2299C000100000003 /* CoreMLModelFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelFormatTests.swift; sourceTree = "<group>"; };
+		F1D100A4299C000100000005 /* CoreMLModelOptimizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelOptimizationTests.swift; sourceTree = "<group>"; };
+		F1D100A6299C000100000007 /* FixtureBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureBuilder.swift; sourceTree = "<group>"; };
+		F1D100A8299C000100000009 /* MultiFunctionModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiFunctionModelTests.swift; sourceTree = "<group>"; };
+		F1D100AA299C00010000000B /* OverlaySnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySnapshotTests.swift; sourceTree = "<group>"; };
+		F1D100AC299C00010000000D /* ProjectConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConfigurationTests.swift; sourceTree = "<group>"; };
+		F1D100AE299C00010000000F /* VideoDetectionMetricsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionMetricsTests.swift; sourceTree = "<group>"; };
+		F1D100B0299C000100000011 /* VideoDetectionPixelFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionPixelFormatTests.swift; sourceTree = "<group>"; };
+		F1D100B2299C000100000013 /* VideoDetectionStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionStateTests.swift; sourceTree = "<group>"; };
+		F1D100B4299C000100000015 /* VideoDetectionTestDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionTestDoubles.swift; sourceTree = "<group>"; };
 		C80095392ED1CCA6006A1F60 /* CoreML Player.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreML Player.xctestplan"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -280,11 +298,20 @@
 		731C6B71F6CC400D8C912CAD /* CoreMLPlayerTests */ = {
 			isa = PBXGroup;
 			children = (
+				F1D100A0299C000100000001 /* BaseDetectionTests.swift */,
 				78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */,
-				136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */,
+				F1D100A2299C000100000003 /* CoreMLModelFormatTests.swift */,
+				F1D100A4299C000100000005 /* CoreMLModelOptimizationTests.swift */,
+				F1D100A6299C000100000007 /* FixtureBuilder.swift */,
+				F1D100A8299C000100000009 /* MultiFunctionModelTests.swift */,
+				F1D100AA299C00010000000B /* OverlaySnapshotTests.swift */,
+				F1D100AC299C00010000000D /* ProjectConfigurationTests.swift */,
 				80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */,
-				A1B2C3D4299B000100000001 /* ModernizationTests.swift */,
-				A1B2C3D5299B00F700000004 /* ModernizationAdvancedTests.swift */,
+				F1D100AE299C00010000000F /* VideoDetectionMetricsTests.swift */,
+				F1D100B0299C000100000011 /* VideoDetectionPixelFormatTests.swift */,
+				F1D100B2299C000100000013 /* VideoDetectionStateTests.swift */,
+				F1D100B4299C000100000015 /* VideoDetectionTestDoubles.swift */,
+				136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */,
 				2F3478EC064245388F50489B /* Info.plist */,
 			);
 			path = CoreMLPlayerTests;
@@ -434,11 +461,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1D100A1299C000100000002 /* BaseDetectionTests.swift in Sources */,
 				78B86E38D81A415F8AA229B5 /* ModelLoadingTests.swift in Sources */,
-				136576A07E5B4251BA91A59D /* VisionPipelineTests.swift in Sources */,
+				F1D100A3299C000100000004 /* CoreMLModelFormatTests.swift in Sources */,
+				F1D100A5299C000100000006 /* CoreMLModelOptimizationTests.swift in Sources */,
+				F1D100A7299C000100000008 /* FixtureBuilder.swift in Sources */,
+				F1D100A9299C00010000000A /* MultiFunctionModelTests.swift in Sources */,
+				F1D100AB299C00010000000C /* OverlaySnapshotTests.swift in Sources */,
+				F1D100AD299C00010000000E /* ProjectConfigurationTests.swift in Sources */,
 				80166255DF6740559D13CBF5 /* VideoDetectionTests.swift in Sources */,
-				A1B2C3D4299B000100000002 /* ModernizationTests.swift in Sources */,
-				A1B2C3D5299B00F700000003 /* ModernizationAdvancedTests.swift in Sources */,
+				F1D100AF299C000100000010 /* VideoDetectionMetricsTests.swift in Sources */,
+				F1D100B1299C000100000012 /* VideoDetectionPixelFormatTests.swift in Sources */,
+				F1D100B3299C000100000014 /* VideoDetectionStateTests.swift in Sources */,
+				F1D100B5299C000100000016 /* VideoDetectionTestDoubles.swift in Sources */,
+				136576A07E5B4251BA91A59D /* VisionPipelineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
