@@ -305,3 +305,17 @@ class VideoDetection: Base, ObservableObject {
     }
 }
 
+#if DEBUG
+extension VideoDetection {
+    /// Test-only helper to allow deterministic configuration without relying on async player setup.
+    func setVideoInfoForTesting(_ info: (isPlayable: Bool, frameRate: Double, duration: CMTime, size: CGSize)) {
+        videoInfo = info
+    }
+
+    /// Test-only helper to inject a last detection duration when verifying scheduling behavior.
+    func setLastDetectionTimeForTesting(_ value: Double) {
+        lastDetectionTime = value
+    }
+}
+#endif
+
