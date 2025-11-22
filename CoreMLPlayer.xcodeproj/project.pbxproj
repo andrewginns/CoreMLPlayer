@@ -48,7 +48,11 @@
 		0DFC8B91297C886200D1B3C9 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B90297C886200D1B3C9 /* Images.swift */; };
 		0DFC8B93297C886700D1B3C9 /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B92297C886700D1B3C9 /* Videos.swift */; };
 		0DFC8B95297C88F800D1B3C9 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B94297C88F800D1B3C9 /* Base.swift */; };
-		0DFC8B97297C96FA00D1B3C9 /* CoreMLModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B96297C96FA00D1B3C9 /* CoreMLModelView.swift */; };
+                0DFC8B97297C96FA00D1B3C9 /* CoreMLModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC8B96297C96FA00D1B3C9 /* CoreMLModelView.swift */; };
+                136576A07E5B4251BA91A59D /* VisionPipelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */; };
+                78B86E38D81A415F8AA229B5 /* ModelLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */; };
+                80166255DF6740559D13CBF5 /* VideoDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */; };
+                5287F1F98D6844138659C85F /* YOLOv3Tiny.mlmodel in Resources */ = {isa = PBXBuildFile; fileRef = 0D73DBF3298B3757005D214B /* YOLOv3Tiny.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,17 +100,29 @@
 		0DFC8B90297C886200D1B3C9 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		0DFC8B92297C886700D1B3C9 /* Videos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
 		0DFC8B94297C88F800D1B3C9 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
-		0DFC8B96297C96FA00D1B3C9 /* CoreMLModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelView.swift; sourceTree = "<group>"; };
+                0DFC8B96297C96FA00D1B3C9 /* CoreMLModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLModelView.swift; sourceTree = "<group>"; };
+                0DADC3C9889E4D269B0454AE /* CoreMLPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreMLPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+                136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionPipelineTests.swift; sourceTree = "<group>"; };
+                2F3478EC064245388F50489B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+                78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLoadingTests.swift; sourceTree = "<group>"; };
+                80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetectionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0D680A22297B38E7004F3839 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+                0D680A22297B38E7004F3839 /* Frameworks */ = {
+                        isa = PBXFrameworksBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+                BE28BE67416D476B8DB74C4E /* Frameworks */ = {
+                        isa = PBXFrameworksBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -144,25 +160,38 @@
 			path = Wrappers;
 			sourceTree = "<group>";
 		};
-		0D680A1C297B38E7004F3839 = {
-			isa = PBXGroup;
-			children = (
-				0D680A27297B38E7004F3839 /* CoreMLPlayer */,
-				0D680A26297B38E7004F3839 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		0D680A26297B38E7004F3839 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0D680A25297B38E7004F3839 /* CoreML Player.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0D680A27297B38E7004F3839 /* CoreMLPlayer */ = {
-			isa = PBXGroup;
-			children = (
+                0D680A1C297B38E7004F3839 = {
+                        isa = PBXGroup;
+                        children = (
+                                0D680A27297B38E7004F3839 /* CoreMLPlayer */,
+                                0D680A26297B38E7004F3839 /* Products */,
+                                731C6B71F6CC400D8C912CAD /* CoreMLPlayerTests */,
+                        );
+                        sourceTree = "<group>";
+                };
+                0D680A26297B38E7004F3839 /* Products */ = {
+                        isa = PBXGroup;
+                        children = (
+                                0D680A25297B38E7004F3839 /* CoreML Player.app */,
+                                0DADC3C9889E4D269B0454AE /* CoreMLPlayerTests.xctest */,
+                        );
+                        name = Products;
+                        sourceTree = "<group>";
+                };
+                731C6B71F6CC400D8C912CAD /* CoreMLPlayerTests */ = {
+                        isa = PBXGroup;
+                        children = (
+                                78B86E38D81A415F8AA229B6 /* ModelLoadingTests.swift */,
+                                136576A07E5B4251BA91A59E /* VisionPipelineTests.swift */,
+                                80166255DF6740559D13CBF6 /* VideoDetectionTests.swift */,
+                                2F3478EC064245388F50489B /* Info.plist */,
+                        );
+                        path = CoreMLPlayerTests;
+                        sourceTree = "<group>";
+                };
+                0D680A27297B38E7004F3839 /* CoreMLPlayer */ = {
+                        isa = PBXGroup;
+                        children = (
 				0D680A41297B60DF004F3839 /* Info.plist */,
 				0D680A28297B38E7004F3839 /* CoreMLPlayerApp.swift */,
 				0D94BB77297CD5A500ADC424 /* Constants.swift */,
@@ -244,11 +273,11 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0D680A24297B38E7004F3839 /* CoreML Player */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0D680A34297B38E8004F3839 /* Build configuration list for PBXNativeTarget "CoreML Player" */;
-			buildPhases = (
-				0D680A21297B38E7004F3839 /* Sources */,
+                0D680A24297B38E7004F3839 /* CoreML Player */ = {
+                        isa = PBXNativeTarget;
+                        buildConfigurationList = 0D680A34297B38E8004F3839 /* Build configuration list for PBXNativeTarget "CoreML Player" */;
+                        buildPhases = (
+                                0D680A21297B38E7004F3839 /* Sources */,
 				0D680A22297B38E7004F3839 /* Frameworks */,
 				0D680A23297B38E7004F3839 /* Resources */,
 			);
@@ -256,11 +285,29 @@
 			);
 			dependencies = (
 			);
-			name = "CoreML Player";
-			productName = CoreMLPlayer;
-			productReference = 0D680A25297B38E7004F3839 /* CoreML Player.app */;
-			productType = "com.apple.product-type.application";
-		};
+                        name = "CoreML Player";
+                        productName = CoreMLPlayer;
+                        productReference = 0D680A25297B38E7004F3839 /* CoreML Player.app */;
+                        productType = "com.apple.product-type.application";
+                };
+                B3559561388448499FAD2F36 /* CoreMLPlayerTests */ = {
+                        isa = PBXNativeTarget;
+                        buildConfigurationList = F559AF08098947A08F82D262 /* Build configuration list for PBXNativeTarget "CoreMLPlayerTests" */;
+                        buildPhases = (
+                                5287F1F98D6844138659C860 /* Sources */,
+                                BE28BE67416D476B8DB74C4E /* Frameworks */,
+                                2F3478EC064245388F50489C /* Resources */,
+                        );
+                        buildRules = (
+                        );
+                        dependencies = (
+                                78B86E38D81A415F8AA229B7 /* PBXTargetDependency */,
+                        );
+                        name = CoreMLPlayerTests;
+                        productName = CoreMLPlayerTests;
+                        productReference = 0DADC3C9889E4D269B0454AE /* CoreMLPlayerTests.xctest */;
+                        productType = "com.apple.product-type.bundle.unit-test";
+                };
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -286,24 +333,33 @@
 			);
 			mainGroup = 0D680A1C297B38E7004F3839;
 			productRefGroup = 0D680A26297B38E7004F3839 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				0D680A24297B38E7004F3839 /* CoreML Player */,
-			);
-		};
+                        projectDirPath = "";
+                        projectRoot = "";
+                        targets = (
+                                0D680A24297B38E7004F3839 /* CoreML Player */,
+                                B3559561388448499FAD2F36 /* CoreMLPlayerTests */,
+                        );
+                };
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0D680A23297B38E7004F3839 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D680A30297B38E8004F3839 /* Preview Assets.xcassets in Resources */,
-				0D680A2D297B38E8004F3839 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+                0D680A23297B38E7004F3839 /* Resources */ = {
+                        isa = PBXResourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                                0D680A30297B38E8004F3839 /* Preview Assets.xcassets in Resources */,
+                                0D680A2D297B38E8004F3839 /* Assets.xcassets in Resources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+                2F3478EC064245388F50489C /* Resources */ = {
+                        isa = PBXResourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                                5287F1F98D6844138659C85F /* YOLOv3Tiny.mlmodel in Resources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -350,11 +406,35 @@
 				0D97DD7F2984B9BF0030BC7A /* LoadingGallery.swift in Sources */,
 				0D25FC60297F10DB00E3F562 /* ImageFramed.swift in Sources */,
 				0D939D19298A939500276551 /* DetectionView.swift in Sources */,
-				0D25FC5B297F042900E3F562 /* StatusProgressView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+                                0D25FC5B297F042900E3F562 /* StatusProgressView.swift in Sources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+                5287F1F98D6844138659C860 /* Sources */ = {
+                        isa = PBXSourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                                78B86E38D81A415F8AA229B5 /* ModelLoadingTests.swift in Sources */,
+                                136576A07E5B4251BA91A59D /* VisionPipelineTests.swift in Sources */,
+                                80166255DF6740559D13CBF5 /* VideoDetectionTests.swift in Sources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+                80166255DF6740559D13CBF7 /* PBXContainerItemProxy */ = {
+                        isa = PBXContainerItemProxy;
+                        containerPortal = 0D680A1D297B38E7004F3839 /* Project object */;
+                        proxyType = 1;
+                        remoteGlobalIDString = 0D680A24297B38E7004F3839;
+                        remoteInfo = "CoreML Player";
+                };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+                78B86E38D81A415F8AA229B7 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = 0D680A24297B38E7004F3839 /* CoreML Player */; targetProxy = 80166255DF6740559D13CBF7 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0D680A32297B38E8004F3839 /* Debug */ = {
@@ -500,11 +580,11 @@
 			};
 			name = Debug;
 		};
-		0D680A36297B38E8004F3839 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                0D680A36297B38E8004F3839 /* Release */ = {
+                        isa = XCBuildConfiguration;
+                        buildSettings = {
+                                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CoreMLPlayer/CoreMLPlayer.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -524,12 +604,53 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = useYourOwn.Identifier;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
+                                PRODUCT_NAME = "$(TARGET_NAME)";
+                                SWIFT_EMIT_LOC_STRINGS = YES;
+                                SWIFT_VERSION = 5.0;
+                        };
+                        name = Release;
+                };
+                0DA47494F3DF4786A25EC365 /* Debug */ = {
+                        isa = XCBuildConfiguration;
+                        buildSettings = {
+                                CODE_SIGN_STYLE = Automatic;
+                                DEVELOPMENT_TEAM = "";
+                                INFOPLIST_FILE = CoreMLPlayerTests/Info.plist;
+                                IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+                                LD_RUNPATH_SEARCH_PATHS = (
+                                        "$(inherited)",
+                                        "@executable_path/Frameworks",
+                                        "@loader_path/Frameworks",
+                                );
+                                PRODUCT_BUNDLE_IDENTIFIER = "com.example.CoreMLPlayerTests";
+                                PRODUCT_NAME = "$(TARGET_NAME)";
+                                SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+                                SWIFT_VERSION = 5.0;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreML Player.app/Contents/MacOS/CoreML Player";
+                        };
+                        name = Debug;
+                };
+                0DF19DE3679F402B8A38A14A /* Release */ = {
+                        isa = XCBuildConfiguration;
+                        buildSettings = {
+                                CODE_SIGN_STYLE = Automatic;
+                                DEVELOPMENT_TEAM = "";
+                                INFOPLIST_FILE = CoreMLPlayerTests/Info.plist;
+                                IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+                                LD_RUNPATH_SEARCH_PATHS = (
+                                        "$(inherited)",
+                                        "@executable_path/Frameworks",
+                                        "@loader_path/Frameworks",
+                                );
+                                PRODUCT_BUNDLE_IDENTIFIER = "com.example.CoreMLPlayerTests";
+                                PRODUCT_NAME = "$(TARGET_NAME)";
+                                SWIFT_VERSION = 5.0;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreML Player.app/Contents/MacOS/CoreML Player";
+                        };
+                        name = Release;
+                };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -542,15 +663,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0D680A34297B38E8004F3839 /* Build configuration list for PBXNativeTarget "CoreML Player" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0D680A35297B38E8004F3839 /* Debug */,
-				0D680A36297B38E8004F3839 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
+                0D680A34297B38E8004F3839 /* Build configuration list for PBXNativeTarget "CoreML Player" */ = {
+                        isa = XCConfigurationList;
+                        buildConfigurations = (
+                                0D680A35297B38E8004F3839 /* Debug */,
+                                0D680A36297B38E8004F3839 /* Release */,
+                        );
+                        defaultConfigurationIsVisible = 0;
+                        defaultConfigurationName = Release;
+                };
+                F559AF08098947A08F82D262 /* Build configuration list for PBXNativeTarget "CoreMLPlayerTests" */ = {
+                        isa = XCConfigurationList;
+                        buildConfigurations = (
+                                0DA47494F3DF4786A25EC365 /* Debug */,
+                                0DF19DE3679F402B8A38A14A /* Release */,
+                        );
+                        defaultConfigurationIsVisible = 0;
+                        defaultConfigurationName = Release;
+                };
 /* End XCConfigurationList section */
 	};
 	rootObject = 0D680A1D297B38E7004F3839 /* Project object */;
