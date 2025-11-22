@@ -27,16 +27,17 @@
 		0D680A40297B54CC004F3839 /* CoreMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D680A3F297B54CC004F3839 /* CoreMLModel.swift */; };
 		0D73DBF4298B3757005D214B /* YOLOv3Tiny.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0D73DBF3298B3757005D214B /* YOLOv3Tiny.mlmodel */; };
 		0D939D19298A939500276551 /* DetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D939D18298A939500276551 /* DetectionView.swift */; };
-		0D94BB78297CD5A500ADC424 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94BB77297CD5A500ADC424 /* Constants.swift */; };
-		0D973DD8298C41AB0057ED88 /* DetectionDetailsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D973DD7298C41AB0057ED88 /* DetectionDetailsPopover.swift */; };
-		0D973DDA298C46AE0057ED88 /* DetectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D973DD9298C46AE0057ED88 /* DetectionRect.swift */; };
-		0D97DD71298449B30030BC7A /* DrawSettingsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD70298449B30030BC7A /* DrawSettingsPopover.swift */; };
-		0D97DD7329844E400030BC7A /* DrawSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7229844E400030BC7A /* DrawSettings.swift */; };
-		0D97DD752984A8960030BC7A /* GalleryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD742984A8960030BC7A /* GalleryToolbar.swift */; };
-		0D97DD7B2984B0DA0030BC7A /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7A2984B0DA0030BC7A /* File.swift */; };
-		0D97DD7D2984B11F0030BC7A /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7C2984B11F0030BC7A /* Gallery.swift */; };
-		0D97DD7F2984B9BF0030BC7A /* LoadingGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7E2984B9BF0030BC7A /* LoadingGallery.swift */; };
-		0DC550ED298ECBB20088608C /* FPSChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC550EC298ECBB20088608C /* FPSChartData.swift */; };
+0D94BB78297CD5A500ADC424 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94BB77297CD5A500ADC424 /* Constants.swift */; };
+0D973DD8298C41AB0057ED88 /* DetectionDetailsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D973DD7298C41AB0057ED88 /* DetectionDetailsPopover.swift */; };
+0D973DDA298C46AE0057ED88 /* DetectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D973DD9298C46AE0057ED88 /* DetectionRect.swift */; };
+0D97DD71298449B30030BC7A /* DrawSettingsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD70298449B30030BC7A /* DrawSettingsPopover.swift */; };
+0D97DD7329844E400030BC7A /* DrawSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7229844E400030BC7A /* DrawSettings.swift */; };
+125F5E572F5849C3B8BE9F2D /* CoreML Player.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D680A25297B38E7004F3839 /* CoreML Player.app */; };
+0D97DD752984A8960030BC7A /* GalleryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD742984A8960030BC7A /* GalleryToolbar.swift */; };
+0D97DD7B2984B0DA0030BC7A /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7A2984B0DA0030BC7A /* File.swift */; };
+0D97DD7D2984B11F0030BC7A /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7C2984B11F0030BC7A /* Gallery.swift */; };
+0D97DD7F2984B9BF0030BC7A /* LoadingGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D97DD7E2984B9BF0030BC7A /* LoadingGallery.swift */; };
+0DC550ED298ECBB20088608C /* FPSChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC550EC298ECBB20088608C /* FPSChartData.swift */; };
 		0DC550EF298ECF910088608C /* FPSChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC550EE298ECF910088608C /* FPSChart.swift */; };
 		0DDA121B29832D1700991BD0 /* CoreMLModelDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDA121A29832D1700991BD0 /* CoreMLModelDescriptionView.swift */; };
 		0DDA121D298335C800991BD0 /* ModelDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDA121C298335C800991BD0 /* ModelDescription.swift */; };
@@ -116,13 +117,14 @@
                         );
                         runOnlyForDeploymentPostprocessing = 0;
                 };
-                BE28BE67416D476B8DB74C4E /* Frameworks */ = {
-                        isa = PBXFrameworksBuildPhase;
-                        buildActionMask = 2147483647;
-                        files = (
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+BE28BE67416D476B8DB74C4E /* Frameworks */ = {
+isa = PBXFrameworksBuildPhase;
+buildActionMask = 2147483647;
+files = (
+125F5E572F5849C3B8BE9F2D /* CoreML Player.app in Frameworks */,
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
