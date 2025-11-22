@@ -1,6 +1,7 @@
 import XCTest
 @testable import CoreML_Player
 import CoreML
+import Vision
 
 final class ModelLoadingTests: XCTestCase {
     func testModelCompilationAndConfiguration() throws {

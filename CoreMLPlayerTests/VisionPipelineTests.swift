@@ -8,7 +8,8 @@ final class VisionPipelineTests: XCTestCase {
     func testDetectedObjectsConversion() {
         let boundingBox = CGRect(x: 0.1, y: 0.2, width: 0.3, height: 0.4)
         let label = VNClassificationObservation(identifier: "object", confidence: 0.75)
-        let observation = try? VNRecognizedObjectObservation(boundingBox: boundingBox, labels: [label])
+        let observation = VNRecognizedObjectObservation(boundingBox: boundingBox)
+        observation.setValue([label], forKey: "labels")
         let duration: Duration = .milliseconds(40)
 
         let sut = Base()
