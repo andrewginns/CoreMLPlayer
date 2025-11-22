@@ -236,6 +236,22 @@ class VideoDetection: Base, ObservableObject {
             #endif
         }
     }
+
+    private static func orientation(from transform: CGAffineTransform) -> CGImagePropertyOrientation {
+        // Derived from AVAssetTrack preferredTransform conventions
+        switch (transform.a, transform.b, transform.c, transform.d) {
+        case (0, 1, -1, 0):
+            return .right
+        case (0, -1, 1, 0):
+            return .left
+        case (1, 0, 0, 1):
+            return .up
+        case (-1, 0, 0, -1):
+            return .down
+        default:
+            return .up
+        }
+    }
     
     func getPlayerItemIfContinuing(mode: PlayModes) -> AVPlayerItem? {
         guard let playerItem = player?.currentItem,
@@ -417,22 +433,6 @@ extension VideoDetection {
     /// Test-only helper to set orientation.
     func setVideoOrientationForTesting(_ orientation: CGImagePropertyOrientation) {
         videoOrientation = orientation
-    }
-
-    private static func orientation(from transform: CGAffineTransform) -> CGImagePropertyOrientation {
-        // Derived from AVAssetTrack preferredTransform conventions
-        switch (transform.a, transform.b, transform.c, transform.d) {
-        case (0, 1, -1, 0):
-            return .right
-        case (0, -1, 1, 0):
-            return .left
-        case (1, 0, 0, 1):
-            return .up
-        case (-1, 0, 0, -1):
-            return .down
-        default:
-            return .up
-        }
     }
 
     static var sharedLastVideoOrientation: CGImagePropertyOrientation?
