@@ -11,7 +11,7 @@ This test plan focuses on preventing regressions from the planned Core ML/Vision
 - **Async load success**: `MLModel.load(contentsOf:configuration:)` resolves and returns a non-nil model; configuration respects `computeUnits` and `allowLowPrecisionAccumulationOnGPU`.
 - **Compilation fallback**: when passed an uncompiled model URL, verify the code compiles once and caches the compiled URL; subsequent loads reuse the compiled path.
 - **Error surfacing**: inject an invalid model and assert the load path propagates errors (no silent failures).
-- **Warm-up inference**: after loading, assert a single warm-up request executes without throwing and marks the model as ready for reuse.
+- **Warm-up inference**: after loading, assert a single warm-up request executes without throwing and marks the model as ready for reuse. YOLOv3Tiny emits a benign console warning about missing `precisionRecallCurves` because it is not an updatable model; the test should tolerate this log as long as the request succeeds.
 
 ## 3. Vision Request Lifecycle
 - **Request reuse**: repeated video frames should reuse the same `VNCoreMLRequest` / `VNSequenceRequestHandler`; track allocations or identifiers to ensure no per-frame recreation.

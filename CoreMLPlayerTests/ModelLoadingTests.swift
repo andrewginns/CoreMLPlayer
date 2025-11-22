@@ -40,6 +40,10 @@ final class ModelLoadingTests: XCTestCase {
         let request = VNCoreMLRequest(model: vnModel)
         request.imageCropAndScaleOption = .centerCrop
 
+        // Running the warm-up request can print a benign warning about missing
+        // `precisionRecallCurves` on non-updatable models; the model still
+        // executes correctly, so we keep the request and only assert success.
+
         let expectation = expectation(description: "Warmup completes")
         DispatchQueue.global(qos: .userInitiated).async {
             do {
